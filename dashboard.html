@@ -1,0 +1,82 @@
+ <html>
+    <head>
+      <title>Login Successful</title>
+    </head> 
+    <body>
+      <h1>Wecome to digiBridge</h1>
+      <button type="button" id="logoutButton" class="btn">Logout</button>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.2/firebase-app-compat.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.2/firebase-auth-compat.min.js"></script>
+      
+
+      <script>
+   
+     // Firebase configuration
+     const firebaseConfig = {
+        apiKey: "AIzaSyCNtI8fsTmh4K9MXXuTNVli8lHtEFvAVoM",
+        authDomain: "digibridge-2761e.firebaseapp.com",
+        projectId: "digibridge-2761e",
+        storageBucket: "digibridge-2761e.firebasestorage.app",
+        messagingSenderId: "870963362960",
+        appId: "1:870963362960:web:f76e6ef057a2a4985dac15",
+        measurementId: "G-DLDNDE6XD5"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+    <!-- Firebase App (add these if not already included) -->
+        
+    
+
+    document.addEventListener('DOMContentLoaded', function () {
+  const logoutButton = document.getElementById('logoutButton');
+  const loginStatus = document.getElementById('loginStatus');
+  const loginError = document.getElementById('loginError');
+
+  // ✅ Check if logoutButton exists
+  if (logoutButton) {
+    logoutButton.addEventListener('click', function () {
+      firebase.auth().signOut()
+        .then(() => {
+          if (loginStatus) {
+            loginStatus.textContent = 'You have been logged out.';
+          }
+          setTimeout(() => {
+            window.location.href = 'login.html'; // Redirect after logout
+          }, 1000);
+        })
+        .catch((error) => {
+          if (loginError) {
+            loginError.textContent = 'Error logging out: ' + error.message;
+          } else {
+            alert('Error logging out: ' + error.message); // Fallback in case element doesn't exist
+          }
+        });
+    });
+  } else {
+    console.warn("Logout button not found in DOM.");
+  }
+});
+
+
+    // ✅ Auth State Listener
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // If user is logged in, redirect to dashboard
+        loginStatus.textContent = 'You are already logged in. Redirecting...';
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1000);
+      } else {
+        // User is logged out
+        loginStatus.textContent = 'Please log in to continue.';
+      }
+    });
+    </script>
+    
+    
+    
+    </body>
+  </html>
